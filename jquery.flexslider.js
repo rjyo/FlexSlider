@@ -353,8 +353,8 @@
         function onTouchMove(e) {
           dx = (vertical) ? startX - e.touches[0].pageY : startX - e.touches[0].pageX;
           scrolling = (vertical) ? (Math.abs(dx) < Math.abs(e.touches[0].pageX - startY)) : (Math.abs(dx) < Math.abs(e.touches[0].pageY - startY));
-
-          if (!scrolling || Number(new Date()) - startT > 500) {
+          if (!scrolling) {
+            distance = Math.abs(startX - e.touches[0].pageX);
             e.preventDefault();
             if (!fade && slider.transitions) {
               if (!vars.animationLoop) {
@@ -362,6 +362,8 @@
               }
               slider.setProps(offset + dx, "setTouch");
             }
+          } else {
+            el.removeEventListener('touchmove', onTouchMove, false);
           }
         }
 
